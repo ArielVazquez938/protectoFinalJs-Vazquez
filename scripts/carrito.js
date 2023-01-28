@@ -4,6 +4,7 @@ productosEnCarrito = JSON.parse(productosEnCarrito)
 const contenedorCarritoVacio = document.querySelector("#carrito-vacio")
 const contenedorCarritoProductos = document.querySelector("#carrito-productos")
 const contenedorCarritoAcciones = document.querySelector("#carrito-acciones")
+const contenedorComentarios = document.querySelector("#comentarios")
 const contenedorCarritoComprado = document.querySelector("#carrito-comprado")
 let botonesEliminar = document.querySelectorAll(".carrito-producto-eliminar")
 const botonVaciar = document.querySelector("#carrito-acciones-vaciar")
@@ -11,13 +12,14 @@ const contenedorTotal = document.querySelector("#total")
 const botonComprar = document.querySelector("#carrito-acciones-comprar")
 
 function cargarProductosCarrito() {
-
+    
     if (productosEnCarrito && productosEnCarrito.length > 0) {
 
         contenedorCarritoVacio.classList.add("disabled")
         contenedorCarritoProductos.classList.remove("disabled")
         contenedorCarritoAcciones.classList.remove("disabled")
         contenedorCarritoComprado.classList.add("disabled")
+        contenedorComentarios.classList.add("disabled")
 
         contenedorCarritoProductos.innerHTML = ""
     
@@ -58,6 +60,7 @@ function cargarProductosCarrito() {
         contenedorCarritoProductos.classList.add("disabled")
         contenedorCarritoAcciones.classList.add("disabled")
         contenedorCarritoComprado.classList.add("disabled")
+        contenedorComentarios.classList.add("disabled")
 
     }
 
@@ -86,6 +89,16 @@ function eliminarDelCarrito(e) {
 
 botonVaciar.addEventListener("click", vaciarCarrito)
 function vaciarCarrito() {
+
+// Sweet Alert
+  Swal.fire({
+    position: 'top-center',
+    icon: 'error',
+    title: 'Productos eliminados',
+    showConfirmButton: false,
+    timer: 1500
+  })
+
     productosEnCarrito.length = 0
     localStorage.setItem("productos-en-carrito", JSON.stringify(productosEnCarrito))
     cargarProductosCarrito()
@@ -100,6 +113,15 @@ function actualizarTotal() {
 botonComprar.addEventListener("click", comprarCarrito)
 function comprarCarrito() {
 
+//Sweet Alert
+    Swal.fire({
+        position: 'top-center',
+        icon: 'success',
+        title: 'Muchas gracias por su compra',
+        showConfirmButton: false,
+        timer: 1500
+      })
+
     productosEnCarrito.length = 0
     localStorage.setItem("productos-en-carrito", JSON.stringify(productosEnCarrito))
     
@@ -107,5 +129,21 @@ function comprarCarrito() {
     contenedorCarritoProductos.classList.add("disabled")
     contenedorCarritoAcciones.classList.add("disabled")
     contenedorCarritoComprado.classList.remove("disabled")
-
+    contenedorComentarios.classList.remove("disabled")
 }
+
+    const coment = document.querySelector("#comentarios")
+
+    fetch("/data.json")
+    .then((resp) => resp.json())
+    .then((data) => {
+        data.forEach((comentario) => {
+            const li = document.createElement("li")
+            li.innerHTML=`
+            <h3>Nombre: ${comentario.nombre}</h3>
+            <p>Comentario: ${comentario.comentario}</p>
+            <h4>Calificacion: ${comentario.puntuacion}</h4>
+            `
+            coment.append(li)
+        })
+    })

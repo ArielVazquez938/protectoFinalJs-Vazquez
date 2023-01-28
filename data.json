@@ -1,0 +1,6 @@
+[
+    {"nombre": "Ariel", "comentario": "Excelente calidad y buen precio." , "puntuacion": 9},
+    {"nombre": "Pablo", "comentario": "Muy conforme con la compra", "puntuacion": 8},
+    {"nombre": "Gabriel", "comentario": "No me llego a tiempo", "puntuacion": 7},
+    {"nombre": "Omar", "comentario": "Excelente tienda online, muy didactica y bien codeada :)", "puntuacion": 10}
+]
